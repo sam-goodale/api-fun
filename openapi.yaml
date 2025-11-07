@@ -1,0 +1,95 @@
+openapi: 3.0.3
+info:
+  title: PokeAPI (unofficial docs)
+  description: "The best (unofficial) documentation project for [PokeAPI](https://pokeapi.co/) The Poke API provides a RESTful interface to Pokemon data."
+servers:
+  - url: https://pokeapi.com/api/v2
+paths:
+  /pokemon:
+    get:
+      summary: List all Pokemon
+      description: Returns a paginated list of Pokemon.
+      parameters:
+        - name: limit
+          in: query
+          description: Number of Pokemon to return (default 20)
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          description: Index of the first Pokemon to return
+          schema:
+            type: integer
+    responses:
+      '200':
+        description: A list of Pokemon
+        content:
+          application/json:
+            type: object
+            properties:
+              count:
+                type: integer
+              results:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    url:
+                      type: string
+          example:
+            count: 1281
+            results:
+              - name: bulbasaur
+                url: https://pokeapi.co/api/v2/pokemon/1/
+              - name: ivysaur
+                url: https://pokeapi.com/api/v2/pokemon/2/
+  /pokemon/{name}:
+    get:
+      summary: Get Pokemon by name
+      description: Retrieve detailed information about a specific Pokemon.
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+            example: pikachu
+    responses:
+      '200':
+        description: Pokemon details
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                height:
+                  type: integer
+                weight:
+                  type: integer
+                abilities:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      ability:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          url:
+                            type: string
+          example:
+            id: 25
+            name: pikachu
+            height: 4
+            weight: 60
+            abilities:
+              - ability:
+                name: static
+                url: https://pokeapi.co/api/v2/ability/9/
